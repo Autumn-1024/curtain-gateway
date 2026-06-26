@@ -1,4 +1,4 @@
-/**
+﻿/**
  ****************************************************************************************************
  * @file        app_web.c
  * @author      Autumn
@@ -18,6 +18,7 @@
 #include "bsp_esp01s.h"
 #include "bsp_rs485.h"
 #include "bsp_oled.h"
+#include "bsp_key.h"
 #include <stdio.h>
 #include <string.h>
 
@@ -168,6 +169,7 @@ static void on_http_request(uint8_t link_id, const char *method, const char *pat
 void app_web_init(void)
 {
     uint8_t i;
+    char ip_addr[20] = {0};
 
     /* 在OLED上显示初始化状态 */
     oled_clear();
@@ -199,13 +201,17 @@ void app_web_init(void)
     {
         printf("[WEB] WiFi failed!\r\n");
         oled_clear();
-        oled_show_string(0, 24, "WiFi Failed!", 12);
+        oled_show_string(0, 8, "WiFi Failed!", 12);
+        oled_show_string(0, 28, "Check ESP01S", 12);
+        oled_show_string(0, 50, "Press any key...", 12);
         oled_refresh_gram();
+
+        /* 等待任意按键 */
+        while (bsp_key_scan(0) == 0) { HAL_Delay(10); }
         return;
     }
 
     /* 获取IP地址 */
-    char ip_addr[20] = {0};
     bsp_esp01s_get_ip(ip_addr, sizeof(ip_addr));
     printf("[WEB] IP: %s\r\n", ip_addr);
 
@@ -225,17 +231,25 @@ void app_web_init(void)
         /* 显示成功信息 + IP地址 */
         oled_clear();
         oled_show_string(0, 0, "WiFi OK!", 12);
-        oled_show_string(0, 14, ip_addr, 12);
-        oled_show_string(0, 28, "Port: 80", 12);
-        oled_show_string(0, 42, "4 Curtains Ready", 12);
+        oled_show_string(0, 16, ip_addr, 12);
+        oled_show_string(0, 32, "Port: 80", 12);
+        oled_show_string(0, 50, "Press any key...", 12);
         oled_refresh_gram();
+
+        /* 等待任意按键 */
+        while (bsp_key_scan(0) == 0) { HAL_Delay(10); }
     }
     else
     {
         printf("[WEB] Server failed!\r\n");
         oled_clear();
-        oled_show_string(0, 24, "Server Failed!", 12);
+        oled_show_string(0, 8, "Server Failed!", 12);
+        oled_show_string(0, 28, "Port 80 in use?", 12);
+        oled_show_string(0, 50, "Press any key...", 12);
         oled_refresh_gram();
+
+        /* 等待任意按键 */
+        while (bsp_key_scan(0) == 0) { HAL_Delay(10); }
     }
 }
 

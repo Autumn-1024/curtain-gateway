@@ -1,4 +1,4 @@
-# 窗帘网关
+﻿# 窗帘网关
 
 STM32F103C8T6 智能窗帘网关 — 本地按键控制 + WiFi 网络控制
 
@@ -47,10 +47,10 @@ GET http://{ip}/c{编号}/{动作}
 
 ```bash
 # 打开窗帘 1
-curl http://192.168.1.100/c1/open
+curl http://10.0.50.87/c1/open
 
 # 关闭窗帘 3
-curl http://192.168.1.100/c3/close
+curl http://10.0.50.87/c3/close
 ```
 
 **响应：**
@@ -64,13 +64,13 @@ C3 CLOSE OK
 ```python
 # Python
 import requests
-r = requests.get("http://192.168.1.100/c1/open")
+r = requests.get("http://10.0.50.87/c1/open")
 print(r.text)  # C1 OPEN OK
 ```
 
 ```javascript
 // JavaScript
-fetch('http://192.168.1.100/c1/open')
+fetch('http://10.0.50.87/c1/open')
   .then(r => r.text())
   .then(console.log);  // C1 OPEN OK
 ```
@@ -122,7 +122,7 @@ fetch('http://192.168.1.100/c1/open')
 
 ```
 [WEB] WiFi connected!
-[WEB] IP: 192.168.1.100
+[WEB] IP: 10.0.50.87
 [WEB] Server started on port 80
 [WEB] 0 GET /c1/open
 [WEB] -> C1 open
