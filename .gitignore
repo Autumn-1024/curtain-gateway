@@ -4,7 +4,7 @@ Listings/
 
 # Keil 用户配置
 *.uvguix.*
-*.uvoptx
+# *.uvoptx — 不排除！命令行烧录 -f 依赖此文件
 
 # VS Code 日志
 *.log
